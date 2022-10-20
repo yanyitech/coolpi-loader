@@ -1,0 +1,4 @@
+U-boot For Cool Pi 4 Model B
+
+编译操作
+./build-uboot.sh
