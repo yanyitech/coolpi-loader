@@ -26,7 +26,20 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
 	uint32_t vlen = 0;
 	char cmd_mod[128] = {0};
 
-	printf("Loading order: tf - emmc - usb\n");
+	printf("Loading order: usb - tf - emmc\n");
+	fes_hub_rst();
+	run_command("usb reset;", -1);
+	mdelay(1000);
+	run_command("checkconf usb;", -1);
+	if(!run_command("load usb 0:1 ${loadaddr_} ${bootdir}${image}", 0)) {
+		run_command("load usb 0:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
+		vlen = simple_strtoul(env_get("filesize"), NULL, 16);
+		run_command("load usb 0:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
+		dir_switch_sdio();
+		sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
+		run_command(cmd_mod, -1);
+		return 0;
+	}
 	run_command("checkconf tf;", -1);
 	if(!run_command("load mmc 1:1 ${loadaddr_} ${bootdir}${image}", 0)) {
 		run_command("load mmc 1:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
@@ -49,19 +62,6 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
 		return 0;
 	}
 
-	fes_hub_rst();
-	run_command("usb reset;", -1);
-	mdelay(1000);
-	run_command("checkconf usb;", -1);
-	if(!run_command("load usb 0:1 ${loadaddr_} ${bootdir}${image}", 0)) {
-		run_command("load usb 0:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
-		vlen = simple_strtoul(env_get("filesize"), NULL, 16);
-		run_command("load usb 0:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
-		dir_switch_sdio();
-		sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
-		run_command(cmd_mod, -1);
-		return 0;
-	}
 	mdelay(3000);
 
         return 0;
