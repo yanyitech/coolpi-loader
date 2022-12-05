@@ -1,4 +1,6 @@
 U-boot For Cool Pi 4 Model B
 
+Forum: https://www.cool-pi.com
+
 编译操作
 ./build-uboot.sh
