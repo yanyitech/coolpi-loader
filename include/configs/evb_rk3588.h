@@ -19,6 +19,16 @@
 		"stdout=serial,vidconsole\0" \
 		"stderr=serial,vidconsole\0"
 
+#include <config_distro_defaults.h>
+
+#undef BOOT_TARGET_DEVICES
+
+#define BOOT_TARGET_DEVICES(func) \
+        func(USB, usb, 0) \
+        func(MMC, mmc, 1) \
+        func(MMC, mmc, 0)
+#include <config_distro_bootcmd.h>
+
 #undef CONFIG_EXTRA_ENV_SETTINGS
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "fdt_addr_r=0x17000000\0" \
@@ -32,10 +42,12 @@
         "initrd_high=0xffffffff\0" \
         "fdt_file=rk3588s.dtb\0" \
         "rd_file=initrd.img\0" \
-	ROCKCHIP_DEVICE_SETTINGS
+	ENV_MEM_LAYOUT_SETTINGS \
+	ROCKCHIP_DEVICE_SETTINGS \
+	BOOTENV
 
 #undef CONFIG_BOOTCOMMAND
 #define CONFIG_BOOTCOMMAND \
-          "loadver;reset" 
+          "loadver;reset"
 #endif
 #endif

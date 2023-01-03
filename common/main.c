@@ -26,6 +26,8 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
 	uint32_t vlen = 0;
 	char cmd_mod[128] = {0};
 
+	rockchip_show_logo();
+	run_command("run distro_bootcmd;", -1);
 	printf("Loading order: usb - tf - emmc\n");
 	fes_hub_rst();
 	run_command("usb reset;", -1);
@@ -134,10 +136,10 @@ void main_loop(void)
 		run_command("c write;", -1);
 	}
 	run_command("c read;", -1);
-	env_set("board", "4B");
+	env_set("board", "cp4");
 	env_set("board_name", "CoolPi");
 	env_set("vendor", "SZ YanYi TECH");
-	env_set("soc", "RK3588S");
+	env_set("soc", "rk3588s");
 	env_set("eth1addr", "00:11:22:33:44:55");
 
 	s = bootdelay_process();

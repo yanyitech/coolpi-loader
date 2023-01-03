@@ -619,6 +619,7 @@ static int label_boot(cmd_tbl_t *cmdtp, struct pxe_label *label)
 	char initrd_str[28];
 	char mac_str[29] = "";
 	char ip_str[68] = "";
+	char str_temp[64];
 	int bootm_argc = 2;
 	int len = 0;
 	ulong kernel_addr;
@@ -695,7 +696,11 @@ static int label_boot(cmd_tbl_t *cmdtp, struct pxe_label *label)
 
 			cli_simple_process_macros(bootargs, finalbootargs);
 			env_set("bootargs", finalbootargs);
-			printf("append: %s\n", finalbootargs);
+			memset(str_temp, 0, sizeof(str_temp));
+			sprintf(str_temp, "rtleth=ethaddr:%s", env_get("ethaddr"));
+			env_update("bootargs", str_temp);
+			//printf("append: %s\n", finalbootargs);
+			printf("append: %s\n", env_get("bootargs"));
 		}
 	}
 

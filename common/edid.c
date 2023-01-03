@@ -1614,9 +1614,9 @@ static const struct base_drm_display_mode resolution_white[] = {
 			DRM_MODE_FLAG_PHSYNC | DRM_MODE_FLAG_PVSYNC),
 	.vrefresh = 60, .picture_aspect_ratio = HDMI_PICTURE_ASPECT_16_9, },
 	/* 33. vic:47 - 1440x900@60Hz 256:135 */
-    { DRM_BASE_MODE(106500, 1440, 1520,
-            1672, 1904, 900, 903, 909, 934, 0,
-            DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC),
+	{ DRM_BASE_MODE(106500, 1440, 1520,
+			1672, 1904, 900, 903, 909, 934, 0,
+			DRM_MODE_FLAG_NHSYNC | DRM_MODE_FLAG_PVSYNC),
 	.vrefresh = 60, .picture_aspect_ratio = HDMI_PICTURE_ASPECT_256_135, },
 
 };
