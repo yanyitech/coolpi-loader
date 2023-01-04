@@ -268,7 +268,7 @@ function select_toolchain()
 			CROSS_COMPILE_ARM64=`cat ${CC_FILE}`
 		else
 			if grep -q '^CONFIG_ARM64=y' .config ; then
-				CROSS_COMPILE_ARM64=$(cd `dirname ${CROSS_COMPILE_ARM64}`; pwd)"/aarch64-linux-gnu-"
+				CROSS_COMPILE_ARM64=$(cd `dirname ${CROSS_COMPILE_ARM64}`; pwd)"/aarch64-none-linux-gnu-"
 			else
 				CROSS_COMPILE_ARM32=$(cd `dirname ${CROSS_COMPILE_ARM32}`; pwd)"/arm-linux-gnueabihf-"
 			fi

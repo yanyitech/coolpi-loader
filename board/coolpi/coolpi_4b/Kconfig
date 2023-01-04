@@ -1,0 +1,15 @@
+if TARGET_COOLPI_4B_RK3588
+
+config SYS_BOARD
+	default "coolpi_4b"
+
+config SYS_VENDOR
+	default "coolpi"
+
+config SYS_CONFIG_NAME
+	default "evb_rk3588"
+
+config BOARD_SPECIFIC_OPTIONS # dummy
+	def_bool y
+
+endif
