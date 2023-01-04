@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./make.sh coolpi-4b-rk3588s 
+./make.sh coolpi-4b-rk3588s --spl-new
 if [ "$?" == "0" ]; then
     rm -rf out
     mkdir -p out

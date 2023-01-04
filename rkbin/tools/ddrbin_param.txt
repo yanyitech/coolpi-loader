@@ -11,7 +11,7 @@ lp5_freq=
 
 uart id=
 uart iomux=
-uart baudrate=
+uart baudrate=115200
 
 sr_idle=
 pd_idle=
