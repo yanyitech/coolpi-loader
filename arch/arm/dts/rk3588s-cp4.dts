@@ -10,6 +10,6 @@
 #include <dt-bindings/input/input.h>
 
 / {
-	model = "RK3588S CoolPi4B Board";
+	model = "RK3588S CoolPi 4B Board";
 	compatible = "rockchip,rk3588-evb", "rockchip,rk3588";
 };

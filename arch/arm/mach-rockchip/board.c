@@ -462,40 +462,6 @@ static void board_mtd_blk_map_partitions(void)
 }
 #endif
 
-#define GPIO4_B5_NUM 141  /*usb hub rst*/
-#define GPIO1_D3_NUM 59   /*dir switch*/
-
-static int int_gpio_set_level(int gpio, char *desc, int val)
-{
-	int ret = 0;
-
-	ret = gpio_request(gpio, desc);
-	if (ret < 0) {
-		printf("request for %d failed:%d\n", gpio, ret);
-		return -1;
-	}
-	gpio_direction_output(gpio, val);
-	gpio_free(gpio);
-
-        return 0;
-}
-
-void fes_hub_rst(void)
-{
-	int_gpio_set_level(GPIO4_B5_NUM, "usb_hub_rst", 0);
-	mdelay(20);
-	int_gpio_set_level(GPIO4_B5_NUM, "usb_hub_rst", 1);
-
-	return ;
-}
-
-void dir_switch_sdio(void)
-{
-	int_gpio_set_level(GPIO1_D3_NUM, "switch_sdio", 1);
-
-	return ;
-}
-
 int board_init(void)
 {
 	board_debug_init();

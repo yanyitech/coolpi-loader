@@ -122,7 +122,7 @@ void main_loop(void)
 
 	run_command("c read;", -1);
 
-	env_set("board_name", "CoolPi 4B");
+	env_set("board_name", "CoolPi RK3588(S)");
 	env_set("vendor", "SZ YanYi TECH");
 
 	temp = env_get("fixmac");
@@ -136,10 +136,10 @@ void main_loop(void)
 		run_command("c write;", -1);
 	}
 	run_command("c read;", -1);
-	env_set("board", "cp4");
-	env_set("board_name", "CoolPi");
+	env_set("board", "coolpi");
+	env_set("board_name", "CoolPi RK3588(S)");
 	env_set("vendor", "SZ YanYi TECH");
-	env_set("soc", "rk3588s");
+	env_set("soc", "rk3588(s)");
 	env_set("eth1addr", "00:11:22:33:44:55");
 
 	s = bootdelay_process();

@@ -22,13 +22,12 @@ static struct dwc3_device dwc3_device_data = {
 
 int usb_gadget_handle_interrupts(void)
 {
-	//dwc3_uboot_handle_interrupt(0);
+	dwc3_uboot_handle_interrupt(0);
 	return 0;
 }
 
 int board_usb_init(int index, enum usb_init_type init)
 {
-	return 0;
-	//return dwc3_uboot_init(&dwc3_device_data);
+	return dwc3_uboot_init(&dwc3_device_data);
 }
 #endif

@@ -6,6 +6,15 @@ config TARGET_EVB_RK3588
 	help
 	  RK3588 EVB is a evaluation board for Rockchp RK3588.
 
+config TARGET_COOLPI_RK3588
+	bool "COOLPI_RK3588"
+	select BOARD_LATE_INIT
+
+config TARGET_COOLPI_RK3588S
+	bool "COOLPI_RK3588S"
+	select BOARD_LATE_INIT
+
+
 config SYS_SOC
 	default "rockchip"
 
@@ -13,5 +22,7 @@ config SYS_MALLOC_F_LEN
 	default 0x400
 
 source board/rockchip/evb_rk3588/Kconfig
+source board/rockchip/coolpi_rk3588/Kconfig
+source board/rockchip/coolpi_rk3588s/Kconfig
 
 endif

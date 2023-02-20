@@ -531,7 +531,7 @@ static int usb_parse_config(struct usb_device *dev,
 			printf("WARN: interface %d has %d endpoint descriptor, "
 			       "different from the interface descriptor's value: %d\n",
 			       ifno, if_desc->no_of_ep, if_desc->desc.bNumEndpoints);
-			if_desc->desc.bNumEndpoints = if_desc->no_of_ep;
+			//if_desc->desc.bNumEndpoints = if_desc->no_of_ep;
 		}
 	}
 	return 0;
