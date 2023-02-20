@@ -1,6 +1,6 @@
-U-boot For Cool Pi 4 Model B
+U-boot For Cool Pi 4B & CM5
 
 Forum: https://www.cool-pi.com
 
-编译操作
-./build-uboot.sh
+Example:
+./build-uboot.sh cp4b|cpcm5

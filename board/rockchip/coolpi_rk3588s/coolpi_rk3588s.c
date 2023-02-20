@@ -7,6 +7,8 @@
 #include <common.h>
 #include <dwc3-uboot.h>
 #include <usb.h>
+#include <command.h>
+#include <mmc.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -66,3 +68,57 @@ void dir_switch_sdio(void)
 
         return ;
 }
+
+#ifndef CONFIG_SPL_BUILD
+static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+{
+        uint32_t vlen = 0;
+        char cmd_mod[128] = {0};
+
+        rockchip_show_logo();
+        run_command("run distro_bootcmd;", -1);
+        printf("Loading order: usb - tf - emmc\n");
+        fes_hub_rst();
+        run_command("usb reset;", -1);
+        mdelay(1000);
+        run_command("checkconf usb;", -1);
+        if(!run_command("load usb 0:1 ${loadaddr_} ${bootdir}${image}", 0)) {
+                run_command("load usb 0:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
+                vlen = simple_strtoul(env_get("filesize"), NULL, 16);
+                run_command("load usb 0:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
+                dir_switch_sdio();
+                sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
+                run_command(cmd_mod, -1);
+                return 0;
+        }
+        run_command("checkconf tf;", -1);
+        if(!run_command("load mmc 1:1 ${loadaddr_} ${bootdir}${image}", 0)) {
+                run_command("load mmc 1:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
+                vlen = simple_strtoul(env_get("filesize"), NULL, 16);
+                run_command("load mmc 1:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
+                dir_switch_sdio();
+                sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
+                run_command(cmd_mod, -1);
+                return 0;
+        }
+	run_command("checkconf mmc;", -1);
+        if(!run_command("load mmc 0:1 ${loadaddr_} ${bootdir}${image}", 0)) {
+                run_command("load mmc 0:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
+                vlen = simple_strtoul(env_get("filesize"), NULL, 16);
+                run_command("load mmc 0:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
+                dir_switch_sdio();
+                sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
+                run_command(cmd_mod, -1);
+                return 0;
+        }
+
+        mdelay(3000);
+
+        return 0;
+}
+
+U_BOOT_CMD(loadver, 4, 0, do_load_version,
+           "Load version",
+           "Booting\n"
+);
+#endif

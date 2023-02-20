@@ -22,6 +22,7 @@ enum udpate_ret_t {
 enum file_load__t {
 	USB_LOAD,
 	NET_LOAD,
+	SATA_LOAD,
 	EMMC_LOAD,
 	TF_LOAD,
 	RAM_LOAD,
@@ -250,6 +251,11 @@ static int upgrade_uboot(char *from)
 		if(run_command("load usb 0:1 0x800000 uboot.img", 0)) {
 	        	return CMD_RET_FAILURE;
 		}
+	} else if (strcmp(from, "sata") == 0) {
+                run_command("scsi scan", 0);
+                if(run_command("load scsi 0:1 0x800000 uboot.img", 0)) {
+                        return CMD_RET_FAILURE;
+                }
 	} else if (strcmp(from, "mmc") == 0) {
 		if(run_command("load mmc 0:1 0x800000 uboot.img", 0)) {
 	        	return CMD_RET_FAILURE;
@@ -327,6 +333,9 @@ static int do_checkconf(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[
 	if (strcmp(argv[1], "usb") == 0) {
 		type = USB_LOAD;
 		//run_command("usb reset", 0);
+	} else if (strcmp(argv[1], "sata") == 0) {
+                run_command("scsi scan", 0);
+                type = SATA_LOAD;
 	} else if (strcmp(argv[1], "mmc") == 0) {
 		type = EMMC_LOAD;
 	} else if (strcmp(argv[1], "tf") == 0) {
