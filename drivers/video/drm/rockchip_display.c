@@ -1262,15 +1262,25 @@ static int load_kernel_bmp_logo(struct logo_info *logo, const char *bmp_name)
 	return 0;
 }
 
+extern int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len);
+
 int logo_load_mem(char *filename, unsigned long addr, int size, int *len)
 {
+	int ret = -1;
+
 	if(!strcmp(filename, "logo.bmp")) {
-		memcpy((void *)addr, &logo_bmp[0], size);
+		ret = load_logo_from_disk(filename, addr, size, len);
+		if(ret) {
+			memcpy((void *)addr, &logo_bmp[0], size);
+		}
 		*len = size;
 		return 0;
 	}
 	if(!strcmp(filename, "logo_kernel.bmp")) {
-		memcpy((void *)addr, &logo_bmp[0], size);
+		ret = load_logo_from_disk(filename, addr, size, len);
+		if(ret) {
+			memcpy((void *)addr, &logo_bmp[0], size);
+		}
 		*len = size;
 		return 0;
 	}

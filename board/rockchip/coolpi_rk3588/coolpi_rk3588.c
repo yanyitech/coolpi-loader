@@ -85,6 +85,18 @@ int rk_board_init(void)
 }
 
 #ifndef CONFIG_SPL_BUILD
+
+int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
+{
+	int ret = -1;
+
+	ret = emmc_load_file(filename, addr, size, len);
+	if(ret)
+		ret = tf_load_file(filename, addr, size, len);
+
+	return ret;
+}
+
 static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
         uint32_t vlen = 0;
