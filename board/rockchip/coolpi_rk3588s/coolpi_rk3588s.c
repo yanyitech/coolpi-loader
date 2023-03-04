@@ -133,4 +133,31 @@ U_BOOT_CMD(loadver, 4, 0, do_load_version,
            "Load version",
            "Booting\n"
 );
+
+void init_board_env(void)
+{
+        char *temp = NULL;
+
+        run_command("c read;", -1);
+
+        env_set("board_name", "CoolPi RK3588S");
+        env_set("vendor", "SZ YanYi TECH");
+
+        temp = env_get("fixmac");
+        if(temp) {
+                if(strncmp(env_get("fixmac"), "yes", 3)) {
+                        env_set("fixmac", "yes");
+                        run_command("c write;", -1);
+                }
+        } else {
+                env_set("fixmac", "yes");
+                run_command("c write;", -1);
+        }
+        run_command("c read;", -1);
+        env_set("board", "coolpi");
+        env_set("board_name", "CoolPi RK3588S");
+        env_set("vendor", "SZ YanYi TECH");
+        env_set("soc", "rk3588s");
+        env_set("eth1addr", "00:11:22:33:44:55");
+}
 #endif

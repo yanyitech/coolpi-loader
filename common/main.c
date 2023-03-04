@@ -20,6 +20,8 @@ DECLARE_GLOBAL_DATA_PTR;
  */
 __weak void show_boot_progress(int val) {}
 
+__weak void init_board_env(void) {}
+
 static void run_preboot_environment_command(void)
 {
 #ifdef CONFIG_PREBOOT
@@ -44,7 +46,6 @@ static void run_preboot_environment_command(void)
 void main_loop(void)
 {
 	const char *s;
-	char *temp = NULL;
 
 	bootstage_mark_name(BOOTSTAGE_ID_MAIN_LOOP, "main_loop");
 
@@ -61,27 +62,7 @@ void main_loop(void)
 	update_tftp(0UL, NULL, NULL);
 #endif /* CONFIG_UPDATE_TFTP */
 
-	run_command("c read;", -1);
-
-	env_set("board_name", "CoolPi RK3588(S)");
-	env_set("vendor", "SZ YanYi TECH");
-
-	temp = env_get("fixmac");
-	if(temp) {
-		if(strncmp(env_get("fixmac"), "yes", 3)) {
-			env_set("fixmac", "yes");
-			run_command("c write;", -1);
-		}
-	} else {
-		env_set("fixmac", "yes");
-		run_command("c write;", -1);
-	}
-	run_command("c read;", -1);
-	env_set("board", "coolpi");
-	env_set("board_name", "CoolPi RK3588(S)");
-	env_set("vendor", "SZ YanYi TECH");
-	env_set("soc", "rk3588(s)");
-	env_set("eth1addr", "00:11:22:33:44:55");
+	init_board_env();
 
 	s = bootdelay_process();
 	if (cli_process_fdt(&s))
