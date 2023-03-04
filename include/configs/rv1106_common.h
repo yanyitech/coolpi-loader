@@ -102,6 +102,7 @@
 #define RKIMG_BOOTCOMMAND		"boot_fit;"
 #define CONFIG_EXTRA_ENV_SETTINGS	ENV_MEM_LAYOUT_SETTINGS
 #endif
+#define CONFIG_AUTO_COMPLETE
 #endif	/* !CONFIG_SPL_BUILD */
 
 #endif

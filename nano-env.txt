@@ -1,0 +1,1 @@
+mtdparts=sfc_nor:64K(env),128K@64K(idblock),512K(uboot),-(data)

@@ -1,0 +1,6 @@
+env	env.img
+idblock	idblock.img
+uboot	uboot.img
+package-file	package-file
+bootloader	download.bin
+
