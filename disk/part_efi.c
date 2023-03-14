@@ -434,6 +434,9 @@ static int part_efi_repair(struct blk_desc *dev_desc, gpt_entry *gpt_pte,
 	size_t count = 0, blk_cnt;
 	lbaint_t blk;
 
+	printf("Skip repair gpt partition table.\n");
+	return 0;
+
 	if (head_gpt_valid == 1 && backup_gpt_valid == 1) {
 		return 0;
 	} else if (head_gpt_valid == 0 && backup_gpt_valid == 0) {
