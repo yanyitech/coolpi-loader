@@ -11,6 +11,10 @@
 #include <power/rk8xx_pmic.h>
 #include <irq-generic.h>
 
+static int pwr_key_count = 0;
+
+extern int pwr_key_flag;
+
 static void rk8xx_pwron_rise_handler(int irq, void *data)
 {
 	struct udevice *dev = data;
@@ -19,6 +23,11 @@ static void rk8xx_pwron_rise_handler(int irq, void *data)
 	key = dev_get_uclass_platdata(dev);
 	key->rise_ms = key_timer(0);
 
+	pwr_key_count++;
+	if(pwr_key_count >= 3) {
+		pwr_key_flag = 1;
+	}
+	
 	debug("%s: %llu ms\n", __func__, key->rise_ms);
 }
 
@@ -30,6 +39,11 @@ static void rk8xx_pwron_fall_handler(int irq, void *data)
 	key = dev_get_uclass_platdata(dev);
 	key->fall_ms = key_timer(0);
 
+	pwr_key_count++;
+	if(pwr_key_count >= 3) {
+		pwr_key_flag = 1;
+	}	
+	
 	debug("%s: %llu ms\n", __func__, key->fall_ms);
 }
 

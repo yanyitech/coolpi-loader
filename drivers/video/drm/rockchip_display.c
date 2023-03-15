@@ -1284,6 +1284,11 @@ int logo_load_mem(char *filename, unsigned long addr, int size, int *len)
 		*len = size;
 		return 0;
 	}
+	if(!strcmp(filename, "maskrom.bmp")) {
+		memcpy((void *)addr, &logo_bmp[0], size);
+		*len = size;
+		return 0;
+	}
 
 	return -1;
 }
@@ -1314,18 +1319,10 @@ static int load_bmp_logo(struct logo_info *logo, const char *bmp_name)
 	if (!header)
 		return -ENOMEM;
 
-#if 0
-	len = rockchip_read_resource_file(header, bmp_name, 0, RK_BLK_SIZE);
-	if (len != RK_BLK_SIZE) {
-		ret = -EINVAL;
-		goto free_header;
-	}
-#else
 	if(logo_load_mem((char *)bmp_name, (unsigned long) header, RK_BLK_SIZE, &len)) {
 	        ret = -EINVAL;
 	        goto free_header;
 	}
-#endif
 
 	logo->bpp = get_unaligned_le16(&header->bit_count);
 	logo->width = get_unaligned_le32(&header->width);
@@ -1348,19 +1345,10 @@ static int load_bmp_logo(struct logo_info *logo, const char *bmp_name)
 		dst = pdst;
 	}
 
-#if 0
-	len = rockchip_read_resource_file(pdst, bmp_name, 0, size);
-	if (len != size) {
-		printf("failed to load bmp %s\n", bmp_name);
-		ret = -ENOENT;
-		goto free_header;
-	}
-#else
 	if(logo_load_mem((char *)bmp_name, (unsigned long) pdst, size, &len)) {
 		ret = -ENOENT;
 		goto free_header;
 	}	
-#endif
 
 	if (!can_direct_logo(logo->bpp)) {
 		/*

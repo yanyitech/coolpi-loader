@@ -75,6 +75,9 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 {
 	int ret = -1;
 
+	//now skip it
+	return ret;
+
 	ret = emmc_load_file(filename, addr, size, len);
 	if(ret)
 		ret = tf_load_file(filename, addr, size, len);
@@ -82,17 +85,23 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 	return ret;
 }
 
+int pwr_key_flag = 0;
+
 static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
         uint32_t vlen = 0;
         char cmd_mod[128] = {0};
 
         rockchip_show_logo();
+        mdelay(1000);
+        if(pwr_key_flag) {
+                printf("Power Key Setting Enter maskrom mode!\n");
+                run_command("rbrom", -1);
+        }
         run_command("run distro_bootcmd;", -1);
         printf("Loading order: usb - tf - emmc\n");
         fes_hub_rst();
         run_command("usb reset;", -1);
-        mdelay(1000);
         run_command("checkconf usb;", -1);
         if(!run_command("load usb 0:1 ${loadaddr_} ${bootdir}${image}", 0)) {
                 run_command("load usb 0:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
