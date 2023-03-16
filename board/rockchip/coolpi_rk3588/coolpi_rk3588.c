@@ -97,6 +97,8 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 	return ret;
 }
 
+int pwr_key_flag = 0;
+
 static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
         uint32_t vlen = 0;
