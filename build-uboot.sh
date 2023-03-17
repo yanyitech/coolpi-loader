@@ -7,7 +7,7 @@ case "$BOARD" in
   cp4b)
     cfg="rk3588s_coolpi4b" 
     ;;
-  cpcm5)
+  cm5)
     cfg="rk3588_coolpicm5" 
     ;;
   nano)
@@ -15,7 +15,7 @@ case "$BOARD" in
     RV1106="1"
     ;;
   *)
-    echo "Usage: $0 {cp4b|cpcm5|nano}" >&2
+    echo "Usage: $0 {cp4b|cm5|nano}" >&2
     exit 0
     ;;
 esac
