@@ -90,6 +90,8 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 {
 	int ret = -1;
 
+	return ret;
+
 	ret = emmc_load_file(filename, addr, size, len);
 	if(ret)
 		ret = tf_load_file(filename, addr, size, len);
@@ -106,7 +108,18 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
 
         rockchip_show_logo();
         run_command("run distro_bootcmd;", -1);
-        printf("Loading order: usb - sata - emmc\n");
+        printf("Loading order: tf - usb - sata - emmc\n");
+        run_command("checkconf tf;", -1);
+        if(!run_command("load mmc 1:1 ${loadaddr_} ${bootdir}${image}", 0)) {
+                run_command("load mmc 1:1 ${initrd_addr} ${bootdir}${rd_file}", -1);
+                vlen = simple_strtoul(env_get("filesize"), NULL, 16);
+                run_command("load mmc 1:1 ${fdt_addr_r} ${bootdir}${fdt_file}", -1);
+                dir_switch_sdio();
+                sprintf(cmd_mod, "unzip ${loadaddr_} ${loadaddr};booti ${loadaddr} ${initrd_addr}:%x ${fdt_addr_r}", vlen);
+                run_command(cmd_mod, -1);
+                return 0;
+        }
+
         fes_hub_rst();
         run_command("usb reset;", -1);
         mdelay(1000);
