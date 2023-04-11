@@ -23,6 +23,7 @@
 		reg = <0x0 0xfe3a0000 0x0 0x4000>;
 	};
 
+#if 0
 	vcc12v_dcin: vcc12v-dcin {
 		u-boot,dm-pre-reloc;
 		compatible = "regulator-fixed";
@@ -44,12 +45,14 @@
 		startup-delay-us = <5000>;
 		vin-supply = <&vcc12v_dcin>;
 	};
+#endif
 };
 
 &firmware {
 	u-boot,dm-spl;
 };
 
+#if 0
 &pcie30phy {
 	u-boot,dm-pre-reloc;
 	rockchip,pcie30-phymode = <PHY_MODE_PCIE_AGGREGATION>;
@@ -62,6 +65,7 @@
 	vpcie3v3-supply = <&vcc3v3_pcie30>;
 	status = "okay";
 };
+#endif
 
 &gpio0 {
 	u-boot,dm-spl;

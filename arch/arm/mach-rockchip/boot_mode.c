@@ -96,10 +96,12 @@ int rockchip_get_boot_mode(void)
 	u32 offset = BCB_MESSAGE_BLK_OFFSET;
 #endif
 
+#if 0
 	debug("boot mode: normal\n");
 	boot_mode[PL] = BOOT_MODE_NORMAL;
 	clear_boot_reg = 1;
 	return boot_mode[PL];
+#endif
 
 	/*
 	 * Env variable "reboot_mode" which is added by U-Boot, reading ever time.
