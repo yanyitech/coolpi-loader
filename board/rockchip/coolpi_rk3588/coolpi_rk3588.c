@@ -27,14 +27,13 @@ static struct dwc3_device dwc3_device_data = {
 
 int usb_gadget_handle_interrupts(void)
 {
-	//dwc3_uboot_handle_interrupt(0);
+	dwc3_uboot_handle_interrupt(0);
 	return 0;
 }
 
 int board_usb_init(int index, enum usb_init_type init)
 {
-	return 0;
-	//return dwc3_uboot_init(&dwc3_device_data);
+	return dwc3_uboot_init(&dwc3_device_data);
 }
 #endif
 
@@ -107,6 +106,11 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
         char cmd_mod[128] = {0};
 
         rockchip_show_logo();
+        mdelay(1000);
+        if(pwr_key_flag) {
+                printf("Power Key Setting Enter UMS mode!\n");
+                run_command("ums 0 mmc 0", -1);
+        }
         run_command("run distro_bootcmd;", -1);
         printf("Loading order: tf - usb - sata - emmc\n");
         run_command("checkconf tf;", -1);
