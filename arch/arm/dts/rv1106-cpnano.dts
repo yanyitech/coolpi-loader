@@ -13,20 +13,5 @@
 	model = "Rockchip RV1106 Cool Pi Nano Board";
 	compatible = "rockchip,rv1106-evb", "rockchip,rv1106";
 
-	adc-keys {
-		compatible = "adc-keys";
-		io-channels = <&saradc 0>;
-		io-channel-names = "buttons";
-		keyup-threshold-microvolt = <1800000>;
-		u-boot,dm-pre-reloc;
-		status = "okay";
-
-		volumeup-key {
-			u-boot,dm-pre-reloc;
-			linux,code = <KEY_VOLUMEUP>;
-			label = "volume up";
-			press-threshold-microvolt = <1750>;
-		};
-	};
 };
 

@@ -157,7 +157,7 @@ static int validate_gpt_entries(gpt_header *gpt_h, gpt_entry *gpt_e)
 		le32_to_cpu(gpt_h->sizeof_partition_entry));
 
 	if (calc_crc32 != le32_to_cpu(gpt_h->partition_entry_array_crc32)) {
-		printf("%s: 0x%x != 0x%x\n",
+		debug("%s: 0x%x != 0x%x\n",
 		       "GUID Partition Table Entry Array CRC is wrong",
 		       le32_to_cpu(gpt_h->partition_entry_array_crc32),
 		       calc_crc32);

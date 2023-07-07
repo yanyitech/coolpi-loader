@@ -53,6 +53,18 @@
 	};
 
 	emmc {
+		emmc_bus4: emmc-bus4 {
+			rockchip,pins =
+				/* emmc_d0 */
+				<4 RK_PA4 1 &pcfg_pull_up_drv_level_2>,
+				/* emmc_d1 */
+				<4 RK_PA3 1 &pcfg_pull_up_drv_level_2>,
+				/* emmc_d2 */
+				<4 RK_PA2 1 &pcfg_pull_up_drv_level_2>,
+				/* emmc_d3 */
+				<4 RK_PA6 1 &pcfg_pull_up_drv_level_2>;
+		};
+
 		emmc_bus8: emmc-bus8 {
 			rockchip,pins =
 				/* emmc_d0 */

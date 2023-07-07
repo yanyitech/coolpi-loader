@@ -9,16 +9,45 @@
 
 #include <configs/rv1106_common.h>
 
+#ifndef CONFIG_SPL_BUILD
+
 #define CONFIG_SYS_MMC_ENV_DEV 0
 
 #define ROCKCHIP_DEVICE_SETTINGS \
-			"stdout=serial,vidconsole\0" \
-			"stderr=serial,vidconsole\0"
+			"stdout=serial\0" \
+			"stderr=serial\0"
 #undef CONFIG_CONSOLE_SCROLL_LINES
 #define CONFIG_CONSOLE_SCROLL_LINES            10
 
-#ifndef CONFIG_SPL_BUILD
+#define CONFIG_ENV_OVERWRITE    1
+
 #undef CONFIG_BOOTCOMMAND
+
+#include <config_distro_defaults.h>
+
+#undef BOOT_TARGET_DEVICES
+
+#define BOOT_TARGET_DEVICES(func) \
+	func(MMC, mmc, 1) \ 
+	func(MMC, mmc, 0) 
+
+#include <config_distro_bootcmd.h>
+
+#undef CONFIG_EXTRA_ENV_SETTINGS
+#define CONFIG_EXTRA_ENV_SETTINGS       \
+	"fdt_addr_r=0x00c00000\0" \
+	"loadaddr=0x00800000\0" \
+	"initrd_addr=0x00e00000\0" \
+	"bootdir=/boot/\0" \
+	"image=vmlinuz\0" \
+	"console=ttyS0\0" \
+	"fdt_high=0xffffffff\0" \
+	"initrd_high=0xffffffff\0" \
+	"fdt_file=rv1106-cpnano.dtb\0" \
+	"rd_file=initrd.img\0" \
+	ENV_MEM_LAYOUT_SETTINGS         \
+	ROCKCHIP_DEVICE_SETTINGS        \
+	BOOTENV
 
 /*
  * We made a deal: Not allow U-Boot to bring up thunder-boot kernel.
@@ -33,7 +62,8 @@
 #ifdef CONFIG_SPL_KERNEL_BOOT
 #define CONFIG_BOOTCOMMAND "reset"
 #else
-#define CONFIG_BOOTCOMMAND RKIMG_BOOTCOMMAND
+#undef CONFIG_BOOTCOMMAND
+#define CONFIG_BOOTCOMMAND "loadver;reset"
 #endif
 
 #endif /* !CONFIG_SPL_BUILD */

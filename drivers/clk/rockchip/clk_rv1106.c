@@ -1606,7 +1606,7 @@ int soc_clk_dump(void)
 	}
 
 	priv = dev_get_priv(cru_dev);
-	printf("CLK: (%s. arm: enter %lu KHz, init %lu KHz, kernel %lu%s)\n",
+	debug("CLK: (%s. arm: enter %lu KHz, init %lu KHz, kernel %lu%s)\n",
 	       priv->sync_kernel ? "sync kernel" : "uboot",
 	       priv->armclk_enter_hz / 1000,
 	       priv->armclk_init_hz / 1000,
@@ -1628,14 +1628,14 @@ int soc_clk_dump(void)
 					printf("  %s %s\n", clk_dump->name,
 					       "unknown");
 				else
-					printf("  %s %lu KHz\n", clk_dump->name,
+					debug("  %s %lu KHz\n", clk_dump->name,
 					       rate / 1000);
 			} else {
 				if (rate < 0)
 					printf("  %s %s\n", clk_dump->name,
 					       "unknown");
 				else
-					printf("  %s %lu KHz\n", clk_dump->name,
+					debug("  %s %lu KHz\n", clk_dump->name,
 					       rate / 1000);
 			}
 		}

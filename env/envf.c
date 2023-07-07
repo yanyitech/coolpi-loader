@@ -17,7 +17,7 @@ DECLARE_GLOBAL_DATA_PTR;
 /*
  * Example: ./tools/mkenvimage -s 0x8000 -p 0x0 -o env.img env.txt
  */
-#define ENVF_MSG(fmt, args...)	printf("ENVF: "fmt, ##args)
+#define ENVF_MSG(fmt, args...)	debug("ENVF: "fmt, ##args)
 #define ENVF_DBG(fmt, args...)	debug("ENVF: "fmt, ##args)
 
 #define EMSG_ARGS		"error: please use \"sys_bootargs\" but not \"bootargs\""
@@ -280,6 +280,7 @@ static int envf_add_bootargs(void)
 
 static int envf_load(void)
 {
+#if 0 //jack
 	struct blk_desc *desc;
 	env_t *env;
 
@@ -302,12 +303,14 @@ static int envf_load(void)
 	}
 
 	envf_add_bootargs();
+#endif
 
 	return 0;
 }
 
 static int envf_save(void)
 {
+#if 0 //jack
 	ALLOC_CACHE_ALIGN_BUFFER(env_t, env, 1);
 	struct blk_desc *desc;
 	ssize_t	len;
@@ -347,6 +350,9 @@ static int envf_save(void)
 	}
 
 	return ret;
+#else
+	return 0;
+#endif
 }
 
 static int envf_nowhere_init(void)
