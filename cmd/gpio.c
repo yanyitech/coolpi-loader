@@ -213,11 +213,11 @@ static int do_gpio(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 		}
 		gpio_direction_output(gpio, value);
 	}
-	printf("gpio: pin %s (gpio %i) value is ", str_gpio, gpio);
+	debug("gpio: pin %s (gpio %i) value is ", str_gpio, gpio);
 	if (IS_ERR_VALUE(value))
 		printf("unknown (ret=%d)\n", value);
 	else
-		printf("%d\n", value);
+		debug("%d\n", value);
 	if (sub_cmd != GPIO_INPUT && !IS_ERR_VALUE(value)) {
 		int nval = gpio_get_value(gpio);
 

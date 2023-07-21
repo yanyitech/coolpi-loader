@@ -10,12 +10,15 @@ case "$BOARD" in
   cm5)
     cfg="rk3588_coolpicm5" 
     ;;
+  cm5-notebook)
+    cfg="rk3588_coolpicm5_notebook"
+    ;;
   nano)
     cfg="rv1106_coolpinano"
     RV1106="1"
     ;;
   *)
-    echo "Usage: $0 {cp4b|cm5|nano}" >&2
+    echo "Usage: $0 {cp4b|cm5|cm5-notebook|nano}" >&2
     exit 0
     ;;
 esac
