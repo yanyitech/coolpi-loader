@@ -227,6 +227,8 @@ int rockchip_get_boot_mode(void)
 		return boot_mode[PL];
 }
 
+int recovery_flag = 0;
+
 int setup_boot_mode(void)
 {
 	char env_preboot[256] = {0};
@@ -261,6 +263,10 @@ int setup_boot_mode(void)
 	case BOOT_MODE_CHARGING:
 		printf("enter charging!\n");
 		env_set("preboot", "setenv preboot; charge");
+		break;
+	case BOOT_MODE_RECOVERY:
+		printf("enter recovery!\n");
+		recovery_flag = 1;
 		break;
 	}
 

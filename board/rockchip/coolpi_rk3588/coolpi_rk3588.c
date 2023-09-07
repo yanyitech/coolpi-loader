@@ -89,7 +89,7 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 {
 	int ret = -1;
 
-	return ret;
+	//return ret;
 
 	ret = emmc_load_file(filename, addr, size, len);
 	if(ret)
@@ -170,6 +170,8 @@ U_BOOT_CMD(loadver, 4, 0, do_load_version,
            "Booting\n"
 );
 
+extern int recovery_flag;
+
 void init_board_env(void)
 {
 	char *temp = NULL;
@@ -195,5 +197,9 @@ void init_board_env(void)
         env_set("vendor", "SZ YanYi TECH");
         env_set("soc", "rk3588");
         env_set("eth1addr", "00:11:22:33:44:55");
+
+        if (recovery_flag) {
+            env_set("boot_extlinux", "sysboot ${devtype} ${devnum}:${distro_bootpart} any ${scriptaddr} ${prefix}extlinux/extlinux_r.conf");
+        }
 }
 #endif

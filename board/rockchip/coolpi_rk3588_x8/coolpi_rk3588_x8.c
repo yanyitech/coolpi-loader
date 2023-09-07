@@ -89,7 +89,7 @@ int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
 {
 	int ret = -1;
 
-	return ret;
+	//return ret;
 
 	ret = emmc_load_file(filename, addr, size, len);
 	if(ret)
