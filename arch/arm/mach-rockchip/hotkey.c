@@ -25,6 +25,7 @@ DECLARE_GLOBAL_DATA_PTR;
 
 bool is_hotkey(enum hotkey_t id)
 {
+#ifdef CP_ENABLE_HOTKEY
 	switch (id) {
 	case HK_CMDLINE:
 		return gd->console_evt == CTRL_P;
@@ -45,6 +46,7 @@ bool is_hotkey(enum hotkey_t id)
 	default:
 		break;
 	}
+#endif
 
 	return false;
 }
