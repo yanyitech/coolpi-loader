@@ -83,6 +83,17 @@ int rk_board_init(void)
 	return 0;
 }
 
+#include <asm/io.h>
+
+int rk_board_init_f(void)
+{
+       writel(0xffff0000, 0xfec2003c);
+       writel(0x20002000, 0xfec2000c);
+       writel(0x20002000, 0xfec20004);
+
+       return 0;
+}
+
 #ifndef CONFIG_SPL_BUILD
 
 int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)

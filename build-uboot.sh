@@ -31,7 +31,6 @@ if [ $RV1106 == "1" ]; then
         TOOLCHAIN_ARM32=$U_SRC/toolchain32uc/bin
         export PATH=$TOOLCHAIN_ARM32:$PATH
     fi
-
     ./make.sh $cfg CROSS_COMPILE=arm-rockchip830-linux-uclibcgnueabihf- --spl-new
     if [ "$?" == "0" ]; then
         rm -rf ${cfg}_out
@@ -48,7 +47,12 @@ if [ $RV1106 == "1" ]; then
         md5sum ${cfg}_out/*
     fi
 else
-    ./make.sh $cfg
+    ARCH=`uname -m`
+    EXT_ARGS=""
+    if [ "$ARCH" == "aarch64" ]; then
+        EXT_ARGS="CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-"
+    fi
+    ./make.sh $cfg $EXT_ARGS
     if [ "$?" == "0" ]; then
         rm -rf ${cfg}_out
         mkdir -p ${cfg}_out
