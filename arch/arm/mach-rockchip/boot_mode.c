@@ -248,7 +248,7 @@ int setup_boot_mode(void)
 		break;
 	case BOOT_MODE_UMS:
 		printf("enter UMS!\n");
-		env_set("preboot", "setenv preboot; ums mmc 0");
+		env_set("preboot", "setenv preboot; usb start; ums mmc 0");
 		break;
 #if defined(CONFIG_CMD_DFU)
 	case BOOT_MODE_DFU:
@@ -258,7 +258,7 @@ int setup_boot_mode(void)
 #endif
 	case BOOT_MODE_LOADER:
 		printf("enter Rockusb!\n");
-		env_set("preboot", "setenv preboot; rockusb 0 ${devtype} ${devnum}; rbrom");
+		env_set("preboot", "setenv preboot; usb start; rockusb 0 ${devtype} ${devnum}; rbrom");
 		break;
 	case BOOT_MODE_CHARGING:
 		printf("enter charging!\n");

@@ -96,6 +96,7 @@ static int do_load_version(cmd_tbl_t *cmdtp, int flag, int argc, char * const ar
                 //printf("Power Key Setting Enter maskrom mode!\n");
                 //run_command("rbrom", -1);
                 printf("Power Key Setting Enter UMS mode!\n");
+                run_command("usb start", -1);
                 run_command("ums 0 mmc 0", -1);
         }
         run_command("run distro_bootcmd;", -1);
