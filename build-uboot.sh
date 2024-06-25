@@ -52,7 +52,7 @@ else
     if [ "$ARCH" == "aarch64" ]; then
         EXT_ARGS="CROSS_COMPILE=/usr/bin/aarch64-linux-gnu-"
     fi
-    ./make.sh $cfg $EXT_ARGS
+    ./make.sh $cfg $EXT_ARGS --spl-new
     if [ "$?" == "0" ]; then
         rm -rf ${cfg}_out
         mkdir -p ${cfg}_out
