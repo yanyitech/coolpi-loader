@@ -225,7 +225,8 @@ static int prepare_ring(struct xhci_ctrl *ctrl, struct xhci_ring *ep_ring,
 		puts("WARN waiting for error on ep to be cleared\n");
 		return -EINVAL;
 	case EP_STATE_HALTED:
-		puts("WARN halted endpoint, queueing URB anyway.\n");
+//		puts("WARN halted endpoint, queueing URB anyway.\n");
+		return -EINVAL;
 	case EP_STATE_STOPPED:
 	case EP_STATE_RUNNING:
 		debug("EP STATE RUNNING.\n");
@@ -467,11 +468,7 @@ union xhci_trb *xhci_wait_for_event(struct xhci_ctrl *ctrl, trb_type expected)
 		xhci_acknowledge_event(ctrl);
 	} while (get_timer(ts) < XHCI_TIMEOUT);
 
-	if (expected == TRB_TRANSFER)
-		return NULL;
-
-	printf("XHCI timeout on event type %d... cannot recover.\n", expected);
-	BUG();
+	return NULL;
 }
 
 /*
