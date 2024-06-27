@@ -83,6 +83,15 @@ int rk_board_init(void)
 	return 0;
 }
 
+#include <asm/io.h>
+
+int rk_board_init_f(void)
+{
+       writel(0x3c003c00,0xfd5f4028);//Enable internal weak pull-up of debugging serial port;writel(value,address);
+
+       return 0;
+}
+
 #ifndef CONFIG_SPL_BUILD
 
 int load_logo_from_disk(char *filename, unsigned long addr, int size, int *len)
